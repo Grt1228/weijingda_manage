@@ -7,15 +7,11 @@
 					<el-submenu index="2">
 						<template slot="title"><i class="el-icon-document"></i>数据管理</template>
 						<el-menu-item index="userList">用户列表</el-menu-item>
-						<el-menu-item index="shopList">商家列表</el-menu-item>
-						<el-menu-item index="foodList">食品列表</el-menu-item>
-						<el-menu-item index="orderList">订单列表</el-menu-item>
-						<el-menu-item index="adminList">管理员列表</el-menu-item>
 						<el-menu-item index="newList">新闻列表</el-menu-item>
-						<el-menu-item index="newList">意见列表</el-menu-item>
-						<el-menu-item index="newList">图片列表</el-menu-item>
-						<el-menu-item index="newList">公告列表</el-menu-item>
-						<el-menu-item index="newList">电话列表</el-menu-item>
+						<el-menu-item index="ideaList">意见列表</el-menu-item>
+						<el-menu-item index="imgList">图片列表</el-menu-item>
+						<el-menu-item index="textList">文本列表</el-menu-item>
+						<el-menu-item index="phoneList">电话列表</el-menu-item>
 
 					</el-submenu>
 					<el-submenu index="3">
@@ -24,8 +20,6 @@
 						<el-menu-item index="addTexts">添加公告</el-menu-item>
 						<el-menu-item index="addPics">添加图片</el-menu-item>
 						<el-menu-item index="addPhones">添加号码</el-menu-item>
-						<el-menu-item index="addShop">添加商铺</el-menu-item>
-						<el-menu-item index="addGoods">添加商品</el-menu-item>
 					</el-submenu>
 					<el-submenu index="4">
 						<template slot="title"><i class="el-icon-star-on"></i>图表</template>

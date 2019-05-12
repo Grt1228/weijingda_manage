@@ -6,11 +6,7 @@
 			  <el-form-item label="学号">
 				<el-input v-model="formData.loginName" placeholder="学号"></el-input>
 			  </el-form-item>
-			  <el-form-item label="姓名">
-				<el-input v-model="formData.studentName" placeholder="姓名"></el-input>
-			  </el-form-item>
-			  <el-form-item>
-				<el-button type="primary" @click="getUsers">查询</el-button>
+				<el-button type="primary" @click="getIdeas">查询</el-button>
 			  </el-form-item>
 			</el-form>
 		</div>	
@@ -22,37 +18,37 @@
                 <el-table-column
                   type="index"
 				  align="center"
-                  width="100">
+                  width="50">
                 </el-table-column>
-                
-                <el-table-column
-                  property="studentName"
-                  label="用户姓名"
-				  align="center"
-                  width="220">
-                </el-table-column>
-                <el-table-column
+				<el-table-column
                   property="loginName"
+                  label="学号"
 				  align="center"
-                  label="学号">
+                  width="150">
+                </el-table-column>
+				<el-table-column
+                  property="studentName"
+                  label="反馈人"
+				  align="center"
+                  width="150">
                 </el-table-column>
 				<el-table-column
                   property="createTime"
+                  label="反馈时间"
 				  align="center"
-                  label="注册日期"
-                  width="220">
+                  width="200">
                 </el-table-column>
 				<el-table-column
-                  property="statusDesc"
+                  property="ideaDetail"
+                  label="反馈内容"
 				  align="center"
-                  label="状态"
-                  width="220">
+                  v-if="false">
                 </el-table-column>
 				<el-table-column label="操作" align="center" >
 				  <template slot-scope="scope">
-					<el-button type="danger" 
+					<el-button type="info" 
 					  size="mini"
-					  @click="handleEdit(scope.$index, scope.row)" >禁止登陆</el-button>
+					  @click="handleEdit(scope.$index, scope.row)">详细内容</el-button>
 				  </template>
 				</el-table-column>
             </el-table>
@@ -67,12 +63,35 @@
                 </el-pagination>
             </div>
         </div>
+		<!-- Form -->
+		<div>
+			<el-dialog title="详细内容" :visible.sync="dialogFormVisible">
+				<el-form :model="detailForm" ref="detailForm" label-width="100px" class="detailForm" >
+					  <el-form-item label="学号" prop="loginName">
+						<el-input v-model="detailForm.loginName" :disabled="true"></el-input>
+					  </el-form-item>
+					  <el-form-item label="反馈人" prop="studentName">
+						<el-input v-model="detailForm.studentName":disabled="true" ></el-input>
+					  </el-form-item>
+					  <el-form-item label="反馈时间" prop="createTime">
+						<el-input v-model="detailForm.createTime" :disabled="true" ></el-input>
+					  </el-form-item>
+					  <el-form-item label="反馈内容" prop="ideaDetail">
+						<el-input type="textarea" v-model="detailForm.ideaDetail" :disabled="true" ></el-input>
+					  </el-form-item>
+					  <el-form-item>
+						<el-button @click="dialogFormVisible = false" type="primary" >关闭</el-button>
+					  </el-form-item>
+				</el-form>
+				
+			</el-dialog>
+		</div>
     </div>
 </template>
 
 <script>
     import headTop from '../components/headTop'
-    import {getUserList, getUserCount} from '@/api/getData'
+    import {getIdeaList} from '@/api/getData'
     export default {
         data(){
             return {
@@ -82,10 +101,12 @@
                 pageSize: 20,
                 count: 0,
                 currentPage: 1,
+				dialogFormVisible: false,
+				formLabelWidth: '120px',
 				formData: {
-				  loginName: '',
-				  studentName: ''
-				}
+				  loginName: ''
+				},
+				detailForm: {}
             }
         },
     	components: {
@@ -97,13 +118,13 @@
         methods: {
             async initData(){
                 try{
-					const countData = await getUserList({pageNum: 0, pageSize: 1});
+					const countData = await getIdeaList({pageNum: 0, pageSize: 1});
                     if (countData.status == 0) {
                         this.count = countData.total;
                     }else{
                         throw new Error('获取数据失败');
                     }
-                    this.getUsers();
+                    this.getIdeas();
                 }catch(err){
                     console.log('获取数据失败', err);
                 }
@@ -114,30 +135,35 @@
             handleCurrentChange(val) {
                 this.currentPage = val;
                 this.pageNum = (val - 1);
-                this.getUsers()
+                this.getIdeas()
             },
-            async getUsers(){
-                const data = await getUserList({pageNum: this.pageNum, pageSize: this.pageSize,loginName: this.formData.loginName,studentName: this.formData.studentName});
+            async getIdeas(){
+                const data = await getIdeaList({
+					pageNum: this.pageNum, 
+					pageSize: this.pageSize,
+					loginName: this.formData.loginName
+				});
                 this.tableData = [];
 				if(data.status == 0){
 						data.rows.forEach(item => {
 						const tableData = {};
 						tableData.loginName = item.loginName;
-						tableData.createTime = item.createTime;
 						tableData.studentName = item.studentName;
-						tableData.statusDesc = item.statusDesc;
+						tableData.ideaDetail = item.ideaDetail;
+						tableData.createTime = item.createTime;
 						this.tableData.push(tableData);
 					})
-					return data.total;
 				}else{
                     throw new Error('获取数据失败');
                 }
                 
             },
 			handleEdit(index, row) {
-				console.log(index, row);
-			},
-        }
+				console.log(row);
+				this.detailForm = row;
+				this.dialogFormVisible = true;
+			}
+		}
     }
 </script>
 

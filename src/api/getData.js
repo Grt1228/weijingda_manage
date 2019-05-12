@@ -196,6 +196,59 @@ export const getUserList = data => fetch('/back/user/list', data,'POST');
  */
 
 export const getNewList = data => fetch('/back/new/list', data,'POST');
+/**
+ * 获取电话列表
+ */
+
+export const getPhoneList = data => fetch('/back/phonebook/list', data,'POST');
+/**
+ * 修改电话
+ */
+
+export const updatePhone = data => fetch('/back/phonebook/update', data,'POST');
+/**
+ * 获取反馈列表
+ */
+
+export const getIdeaList = data => fetch('/back/idea/list', data,'POST');
+
+/**
+ * 新增新闻
+ */
+
+export const addNew = data => fetch('/back/new/add', data,'POST');
+
+
+/**
+ * 修改新闻
+ */
+
+export const updateNew = data => fetch('/back/new/update', data,'POST');
+
+/**
+ * 获取文本列表
+ */
+
+export const getTextList = data => fetch('/back/text/list', data,'POST');
+
+/**
+ * 新增文本
+ */
+
+export const addText = data => fetch('/back/text/add', data,'POST');
+
+
+/**
+ * 修改文本
+ */
+
+export const updateText = data => fetch('/back/text/update', data,'POST');
+
+/**
+ * 新增图片
+ */
+
+export const uploadImg = data => fetch('/back/image/upload', data,'POST');
 
 /**
  * 获取用户数量

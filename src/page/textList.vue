@@ -4,31 +4,24 @@
 		<div class="form_container">
 			<el-form :inline="true" :model="formData" class="demo-form-inline">
 			  <el-form-item label="标题">
-				<el-input v-model="formData.newTitle" placeholder="标题"></el-input>
+				<el-input v-model="formData.textTitle" placeholder="标题"></el-input>
 			  </el-form-item>
 			  <el-form-item label="类别">
-				<el-select v-model="formData.newType" placeholder="类别">
+				<el-select v-model="formData.textType" placeholder="类别">
 					<el-option label="全部" value=""></el-option>
-					<el-option label="校园新闻" value="1"></el-option>
-					<el-option label="通知公告" value="2"></el-option>
-					<el-option label="学术讲座" value="3"></el-option>
-					<el-option label="科研信息" value="4"></el-option>
-					<el-option label="教务通知" value="5"></el-option>
-					<el-option label="学院动态" value="6"></el-option>
+					<el-option label="通知" value="0"></el-option>
+					<el-option label="其他" value="1"></el-option>
 				</el-select>
 			  </el-form-item>
 			  <el-form-item label="状态">
-				<el-select v-model="formData.newStatus" placeholder="状态">
+				<el-select v-model="formData.status" placeholder="状态">
 					<el-option label="全部" value=""></el-option>
 					<el-option label="失效" value="0"></el-option>
 					<el-option label="有效" value="1"></el-option>
 				</el-select>
 			  </el-form-item>
-			  <el-form-item label="创建时间">
-				<el-input v-model="formData.newDate" placeholder="创建时间"></el-input>
-			  </el-form-item>
 			  <el-form-item>
-				<el-button type="primary" @click="getNews">查询</el-button>
+				<el-button type="primary" @click="getTexts">查询</el-button>
 			  </el-form-item>
 			</el-form>
 		</div>	
@@ -43,43 +36,32 @@
                   width="50">
                 </el-table-column>
 				<el-table-column
-                  property="newId"
+                  property="appTextId"
                   label="新闻id"
 				  align="center"
 				  v-if="false">
                 </el-table-column>
                 <el-table-column
-                  property="newTitle"
+                  property="textTitle"
                   label="标题"
 				  align="center"
                   width="200">
                 </el-table-column>
                 <el-table-column
-                  property="newType"
+                  property="textType"
                   label="类别"
 				  align="center"
 				  v-if="false">
                 </el-table-column>
 				<el-table-column
-                  property="newTypeDesc"
+                  property="textTypeDesc"
                   label="类别"
 				  align="center"
 				  width="100">
                 </el-table-column>
+				
 				<el-table-column
-                  property="newDate"
-                  label="创建日期"
-				  align="center"
-                  width="150">
-                </el-table-column>
-				<el-table-column
-                  property="newCreater"
-                  label="发布人"
-				  align="center"
-                  width="150">
-                </el-table-column>
-				<el-table-column
-                  property="newStatus"
+                  property="status"
                   label="状态Code"
 				  align="center"
                   v-if="false">
@@ -91,14 +73,14 @@
                   width="200">
                 </el-table-column>
 				<el-table-column
-                  property="newStatusDesc"
+                  property="statusDesc"
                   label="状态"
 				  align="center"
                   width="100">
                 </el-table-column>
 				<el-table-column
-                  property="newDetail"
-                  label="状态"
+                  property="textContext"
+                  label="内容"
 				  align="center"
                   v-if="false">
                 </el-table-column>
@@ -124,41 +106,27 @@
 		<!-- Form -->
 		<div>
 			<el-dialog title="修改信息" :visible.sync="dialogFormVisible">
-				<el-form :model="addForm" :rules="rules" ref="addForm" label-width="100px" class="addForm">
-					  <el-form-item label="新闻标题" prop="newTitle">
-						<el-input v-model="addForm.newTitle"></el-input>
+				<el-form :model="detailForm" :rules="rules" ref="detailForm" label-width="100px" class="detailForm">
+					  <el-form-item label="文本标题" prop="textTitle">
+						<el-input v-model="detailForm.textTitle"></el-input>
 					  </el-form-item>
-					  <el-form-item label="新闻发布人" prop="newCreater">
-						<el-input v-model="addForm.newCreater"></el-input>
-					  </el-form-item>
-					  <el-form-item label="新闻类别" prop="newType">
-						<el-select v-model="addForm.newType" placeholder="请选择新闻类别">
-							<el-option label="校园新闻" value="1"></el-option>
-							<el-option label="通知公告" value="2"></el-option>
-							<el-option label="学术讲座" value="3"></el-option>
-							<el-option label="科研信息" value="4"></el-option>
-							<el-option label="教务通知" value="5"></el-option>
-							<el-option label="学院动态" value="6"></el-option>
+					  <el-form-item label="类别" prop="textType">
+						<el-select v-model="detailForm.textType" placeholder="请选择类别">
+							<el-option label="通知" value="0"></el-option>
+							<el-option label="其他" value="1"></el-option>
 						</el-select>
 					  </el-form-item>
-					  <el-form-item label="新闻日期" required>
-						<el-col :span="11">
-						  <el-form-item prop="newDate">
-							<el-input v-model="addForm.newDate" placeholder="输入汉子格式日期" style="width: 100%;" ></el-input>
-						  </el-form-item>
-						</el-col>
-					  </el-form-item>
-					  <el-form-item label="新闻状态" prop="newStatus">
-						<el-select v-model="addForm.newStatus" placeholder="状态">
+					  <el-form-item label="状态" prop="status">
+						<el-select v-model="detailForm.status" placeholder="状态">
 							<el-option label="失效" value="0"></el-option>
 							<el-option label="有效" value="1"></el-option>
 						</el-select>
 					  </el-form-item>
-					  <el-form-item label="新闻内容" prop="newDetail">
-						<el-input type="textarea" v-model="addForm.newDetail"></el-input>
+					  <el-form-item label="文本内容" prop="textContext">
+						<el-input type="textarea" v-model="detailForm.textContext"></el-input>
 					  </el-form-item>
 					  <el-form-item>
-						<el-button type="primary" @click="submitForm('addForm')">保存</el-button>
+						<el-button type="primary" @click="submitForm('detailForm')">保存</el-button>
 						<el-button @click="dialogFormVisible = false">取消</el-button>
 					  </el-form-item>
 				</el-form>
@@ -170,7 +138,7 @@
 
 <script>
     import headTop from '../components/headTop'
-    import {getNewList,updateNew} from '@/api/getData'
+    import {getTextList,updateText} from '@/api/getData'
     export default {
         data(){
             return {
@@ -183,38 +151,27 @@
 				dialogFormVisible: false,
 				formLabelWidth: '120px',
 				formData: {
-				  newTitle: '',
-				  newCreater: '',
-				  newType: '',
-				  newDate: '',
-				  newStatus: '',
-				  newDetail: ''
+				  textTitle: '',
+				  textType: '',
+				  status: ''
 				},
-				addForm: {
-				  newTitle: '',
-				  newCreater: '',
-				  newType: '',
-				  newDate: '',
-				  newStatus: '',
-				  newDetail: '',
-				  newId: ''
+				detailForm: {
+				  textTitle: '',
+				  textType: '',
+				  status: '',
+				  textContext: '',
+				  appTextId: ''
 				},
 				rules: {
-				  newTitle: [
-					{ required: true, message: '请输入新闻标题', trigger: 'blur' },
+				  textTitle: [
+					{ required: true, message: '请输入标题', trigger: 'blur' },
 					{ min: 1, max: 20, message: '长度在 3 到 5 个字符', trigger: 'blur' }
 				  ],
-				  newCreater: [
-					{ required: true, message: '请选择新闻发布人', trigger: 'change' }
+				  textType: [
+					{ required: true, message: '请选择文本类型', trigger: 'change' }
 				  ],
-				  newType: [
-					{ required: true, message: '请选择新闻类型', trigger: 'change' }
-				  ],
-				  newDate: [
-					{ required: true, message: '请输入新闻时间', trigger: 'change' }
-				  ],
-				  newDetail: [
-					{ required: true, message: '请填写新闻详情', trigger: 'blur' }
+				  textContext: [
+					{ required: true, message: '请填写文本详情', trigger: 'blur' }
 				  ]
 				}
             }
@@ -228,13 +185,13 @@
         methods: {
             async initData(){
                 try{
-					const countData = await getNewList({pageNum: 0, pageSize: 1});
+					const countData = await getTextList({pageNum: 0, pageSize: 1});
                     if (countData.status == 0) {
                         this.count = countData.total;
                     }else{
                         throw new Error('获取数据失败');
                     }
-                    this.getNews();
+                    this.getTexts();
                 }catch(err){
                     console.log('获取数据失败', err);
                 }
@@ -245,31 +202,29 @@
             handleCurrentChange(val) {
                 this.currentPage = val;
                 this.pageNum = (val - 1);
-                this.getNews()
+                this.getTexts()
             },
-            async getNews(){
-                const data = await getNewList({
+            async getTexts(){
+                const data = await getTextList({
 					pageNum: this.pageNum, 
 					pageSize: this.pageSize,
-					newTitle: this.formData.newTitle,
+					textTitle: this.formData.textTitle,
 					newDate: this.formData.newDate,
-					newType: this.formData.newType,
-					newStatus: this.formData.newStatus
+					textType: this.formData.textType,
+					status: this.formData.status
 					
 				});
                 this.tableData = [];
 				if(data.status == 0){
 						data.rows.forEach(item => {
 						const tableData = {};
-						tableData.newId = item.newId;
-						tableData.newDate = item.newDate;
-						tableData.newStatus = item.newStatus;
-						tableData.newTitle = item.newTitle;
-						tableData.newType = item.newType;
-						tableData.newCreater = item.newCreater;
-						tableData.newTypeDesc = item.newTypeDesc;
-						tableData.newStatusDesc = item.newStatusDesc;
-						tableData.newDetail = item.newDetail;
+						tableData.appTextId = item.appTextId;
+						tableData.status = item.status;
+						tableData.textTitle = item.textTitle;
+						tableData.textType = item.textType;
+						tableData.textTypeDesc = item.textTypeDesc;
+						tableData.statusDesc = item.statusDesc;
+						tableData.textContext = item.textContext;
 						tableData.modifiedTime = item.modifiedTime;
 						this.tableData.push(tableData);
 					})
@@ -280,22 +235,26 @@
             },
 			handleEdit(index, row) {
 				console.log(row);
-				this.addForm = row;
+				this.detailForm.status = row.status;
+				this.detailForm.textTitle = row.textTitle;
+				this.detailForm.textType = row.textType;
+				this.detailForm.textContext = row.textContext;
+				this.detailForm.appTextId = row.appTextId;
 				this.dialogFormVisible = true;
 			},
 			submitForm(formName){
-				console.log(this.addForm);
+				console.log(this.detailForm);
 				
 				this.$refs[formName].validate(async (valid) => {
 					if (valid) {
-						const data = await updateNew(this.addForm);
+						const data = await updateText(this.detailForm);
 						console.log(data);
 						if(data.status == 0){
 							this.$message({
 								type: 'success',
 								message: data.msg
 							});
-							this.getNews();
+							this.getTexts();
 						}else{
 							this.$message({
 								type: 'success',
@@ -306,7 +265,7 @@
 						console.log('error submit!!');
 						return false;
 					}
-				});
+				});			
 				this.dialogFormVisible = false;
 			}
 		}
