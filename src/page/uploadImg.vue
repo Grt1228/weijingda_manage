@@ -24,16 +24,32 @@
 					<el-input-number v-model="imgForm.sortNum" :min="1" :max="100" label="排序号不能重复"></el-input-number>
 				  </el-form-item>
 				  <el-form-item label="上传图片" prop="imageUrl">
+				  
 					<el-upload
 					  class="upload"
-					  action=""
+					  :action="baseUrl + '/back/image/upload'"
+					  :show-file-list="false"
+					  :on-success="handleShopAvatarScucess"
+					  :before-upload="beforeUpload">
+					  <img v-if="formData.image_path" :src="imageUrl" class="avatar">
+					  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+					</el-upload>
+					
+					<el-upload
+					  class="upload"
+					  :action="baseUrl + '/back/image/upload'"
+					  :show-file-list="false"
 					  drag
-					  :http-request="uploadImgFun"
-					  multiple>
+					  :on-success="handleShopAvatarScucess"
+					  :before-upload="beforeUpload">:action="baseUrl + '/back/image/upload'"
+					  :show-file-list="false"
+					  :on-success="handleShopAvatarScucess"
+					  :before-upload="beforeUpload">
 					  <i class="el-icon-upload"></i>
 					  <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
 					  <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
 					</el-upload>
+					
 				  </el-form-item>
 				  <el-form-item>
 					<el-button type="primary" @click="submitForm('imgForm')">提交</el-button>
@@ -97,6 +113,17 @@
       resetForm(formName) {
         this.$refs[formName].resetFields();
       },
+	  beforeAvatarUpload(file) {
+		const isRightType = (file.type === 'image/jpeg') || (file.type === 'image/png');
+		const isLt2M = file.size / 1024 / 1024 < 2;
+		if (!isRightType) {
+		  this.$message.error('上传头像图片只能是 JPG 格式!');
+		}
+		if (!isLt2M) {
+		  this.$message.error('上传头像图片大小不能超过 2MB!');
+		}
+		return isRightType && isLt2M;
+	  },
 	  async uploadImgFun(param){
 		var fileObj = param.file;
 		// FormData 对象

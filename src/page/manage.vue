@@ -12,7 +12,7 @@
 						<el-menu-item index="imgList">图片列表</el-menu-item>
 						<el-menu-item index="textList">文本列表</el-menu-item>
 						<el-menu-item index="phoneList">电话列表</el-menu-item>
-
+						<el-menu-item index="groupList">组列表</el-menu-item>
 					</el-submenu>
 					<el-submenu index="3">
 						<template slot="title"><i class="el-icon-plus"></i>添加数据</template>
@@ -20,6 +20,7 @@
 						<el-menu-item index="addTexts">添加公告</el-menu-item>
 						<el-menu-item index="addPics">添加图片</el-menu-item>
 						<el-menu-item index="addPhones">添加号码</el-menu-item>
+						<el-menu-item index="addGroups">添加组</el-menu-item>
 					</el-submenu>
 					<el-submenu index="4">
 						<template slot="title"><i class="el-icon-star-on"></i>图表</template>

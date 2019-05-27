@@ -25,6 +25,10 @@ const adminSet = r => require.ensure([], () => r(require('@/page/adminSet')), 'a
 const sendMessage = r => require.ensure([], () => r(require('@/page/sendMessage')), 'sendMessage');
 const explain = r => require.ensure([], () => r(require('@/page/explain')), 'explain');
 const phoneList = r => require.ensure([], () => r(require('@/page/phoneList')), 'phoneList');
+const groupList = r => require.ensure([], () => r(require('@/page/groupList')), 'groupList');
+const addGroups = r => require.ensure([], () => r(require('@/page/addGroups')), 'addGroups');
+
+
 
 
 
@@ -46,6 +50,10 @@ const routes = [
 			path: '/addNews',
 			component: addNews,
 			meta: ['添加数据', '添加新闻'],
+		},{
+			path: '/addGroups',
+			component: addGroups,
+			meta: ['添加数据', '添加组'],
 		},{
 			path: '/addShop',
 			component: addShop,
@@ -90,6 +98,10 @@ const routes = [
 			path: '/phoneList',
 			component: phoneList,
 			meta: ['数据管理', '电话列表'],
+		},{
+			path: '/groupList',
+			component: groupList,
+			meta: ['数据管理', '组列表'],
 		},{
 			path: '/visitor',
 			component: visitor,

@@ -206,6 +206,12 @@ export const getPhoneList = data => fetch('/back/phonebook/list', data,'POST');
  */
 
 export const updatePhone = data => fetch('/back/phonebook/update', data,'POST');
+
+/**
+ * 修改电话
+ */
+
+export const addPhones = data => fetch('/back/phonebook/add', data,'POST');
 /**
  * 获取反馈列表
  */
@@ -216,7 +222,7 @@ export const getIdeaList = data => fetch('/back/idea/list', data,'POST');
  * 新增新闻
  */
 
-export const addNew = data => fetch('/back/new/add', data,'POST');
+export const addNews = data => fetch('/back/new/add', data,'POST');
 
 
 /**
@@ -224,6 +230,24 @@ export const addNew = data => fetch('/back/new/add', data,'POST');
  */
 
 export const updateNew = data => fetch('/back/new/update', data,'POST');
+
+/**
+ * 获取组列表
+ */
+
+export const getMapGroupList = data => fetch('/back/map/group/list', data,'POST');
+
+/**
+ * 新增修改组
+ */
+
+export const updateMapGroup = data => fetch('/back/map/group/addOrUpdate', data,'POST');
+
+/**
+ * 新增修改组
+ */
+
+export const addMapGroup = data => fetch('/back/map/group/addOrUpdate', data,'POST');
 
 /**
  * 获取文本列表
@@ -235,7 +259,7 @@ export const getTextList = data => fetch('/back/text/list', data,'POST');
  * 新增文本
  */
 
-export const addText = data => fetch('/back/text/add', data,'POST');
+export const addTexts = data => fetch('/back/text/add', data,'POST');
 
 
 /**
