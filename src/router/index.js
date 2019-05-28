@@ -27,10 +27,8 @@ const explain = r => require.ensure([], () => r(require('@/page/explain')), 'exp
 const phoneList = r => require.ensure([], () => r(require('@/page/phoneList')), 'phoneList');
 const groupList = r => require.ensure([], () => r(require('@/page/groupList')), 'groupList');
 const addGroups = r => require.ensure([], () => r(require('@/page/addGroups')), 'addGroups');
-
-
-
-
+const pointList = r => require.ensure([], () => r(require('@/page/pointList')), 'pointList');
+const addPoints = r => require.ensure([], () => r(require('@/page/addPoints')), 'addPoints');
 
 
 const routes = [
@@ -54,6 +52,10 @@ const routes = [
 			path: '/addGroups',
 			component: addGroups,
 			meta: ['添加数据', '添加组'],
+		},{
+			path: '/addPoints',
+			component: addPoints,
+			meta: ['添加数据', '添加点'],
 		},{
 			path: '/addShop',
 			component: addShop,
@@ -102,6 +104,10 @@ const routes = [
 			path: '/groupList',
 			component: groupList,
 			meta: ['数据管理', '组列表'],
+		},{
+			path: '/pointList',
+			component: pointList,
+			meta: ['数据管理', '点列表'],
 		},{
 			path: '/visitor',
 			component: visitor,

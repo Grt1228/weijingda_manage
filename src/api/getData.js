@@ -250,6 +250,24 @@ export const updateMapGroup = data => fetch('/back/map/group/addOrUpdate', data,
 export const addMapGroup = data => fetch('/back/map/group/addOrUpdate', data,'POST');
 
 /**
+ * 获取点列表
+ */
+
+export const getPointList = data => fetch('/back/map/point/list', data,'POST');
+
+/**
+ * 新增修改点
+ */
+
+export const updatePoint = data => fetch('/back/map/point/addOrUpdate', data,'POST');
+
+/**
+ * 新增修改点
+ */
+
+export const addPoint = data => fetch('/back/map/point/addOrUpdate', data,'POST');
+
+/**
  * 获取文本列表
  */
 
