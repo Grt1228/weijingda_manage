@@ -132,6 +132,8 @@
 					<el-button
 					  size="mini"
 					  @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+					<el-button 
+					  size="mini" type="danger"  @click="deleteRow(scope.$index, scope.row)">删除</el-button>
 				  </template>
 				</el-table-column>
             </el-table>
@@ -200,7 +202,7 @@
 
 <script>
     import headTop from '../components/headTop'
-    import {getPointList,updatePoint,getMapGroupList} from '@/api/getData'
+    import {getPointList,updatePoint,getMapGroupList,deletePoint} from '@/api/getData'
     export default {
         data(){
             return {
@@ -276,12 +278,14 @@
 						pageSize: 100,
 					});
 					if (groupData.status == 0) {
+						this.groupTypeList.push({"mapGroupName": "全部","mapGroupId": ""});
 						groupData.rows.forEach(item => {
 							const oneGroupType = {};
 							oneGroupType.mapGroupName = item.mapGroupName;
 							oneGroupType.mapGroupId = item.mapGroupId;
 							this.groupTypeList.push(oneGroupType);
 						})
+						
                     }else{
                         throw new Error('获取组类别数据失败');
                     }
@@ -295,6 +299,33 @@
 					this.tag = true
 				}
 				console.log(value)
+			},
+			deleteRow(index,row){
+				this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+				  confirmButtonText: '确定',
+				  cancelButtonText: '取消',
+				  type: 'warning',
+				  center: true
+				}).then(async () =>  {
+					const data = await deletePoint({"mapPointId": row.mapPointId});
+					if(data.status == 0){
+						this.$message({
+							type: 'success',
+							message: data.msg
+						});
+						this.getPoints();
+					}else{
+						this.$message({
+							type: 'success',
+							message: data.msg
+						});
+					}
+				}).catch(() => {
+				  this.$message({
+					type: 'info',
+					message: '已取消删除'
+				  });
+				});
 			},
             handleSizeChange(val) {
                 console.log(`每页 ${val} 条`);
@@ -332,6 +363,7 @@
 						tableData.modifiedTime = item.modifiedTime;
 						this.tableData.push(tableData);
 					})
+					this.count = data.total;
 				}else{
                     throw new Error('获取数据失败');
                 }

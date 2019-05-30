@@ -256,16 +256,46 @@ export const addMapGroup = data => fetch('/back/map/group/addOrUpdate', data,'PO
 export const getPointList = data => fetch('/back/map/point/list', data,'POST');
 
 /**
- * 新增修改点
+ * 修改点
  */
 
 export const updatePoint = data => fetch('/back/map/point/addOrUpdate', data,'POST');
 
 /**
- * 新增修改点
+ * 删除点
+ */
+
+export const deletePoint = data => fetch('/back/map/point/delete', data,'POST');
+
+/**
+ * 新增点
  */
 
 export const addPoint = data => fetch('/back/map/point/addOrUpdate', data,'POST');
+
+/**
+ * 校历列表
+ */
+
+export const getCalendarList = data => fetch('/back/calendar/list', data,'POST');
+
+/**
+ * 修改校历
+ */
+
+export const updateCalendar = data => fetch('/back/calendar/addOrUpdate', data,'POST');
+
+/**
+ * 删除校历
+ */
+
+export const deleteCalendar = data => fetch('/back/calendar/delete', data,'POST');
+
+/**
+ * 新增校历
+ */
+
+export const addCalendar = data => fetch('/back/calendar/addOrUpdate', data,'POST');
 
 /**
  * 获取文本列表
@@ -277,7 +307,7 @@ export const getTextList = data => fetch('/back/text/list', data,'POST');
  * 新增文本
  */
 
-export const addTexts = data => fetch('/back/text/add', data,'POST');
+export const addText = data => fetch('/back/text/add', data,'POST');
 
 
 /**

@@ -216,7 +216,7 @@
 				});
                 this.tableData = [];
 				if(data.status == 0){
-						data.rows.forEach(item => {
+					data.rows.forEach(item => {
 						const tableData = {};
 						tableData.appTextId = item.appTextId;
 						tableData.status = item.status;
@@ -228,6 +228,7 @@
 						tableData.modifiedTime = item.modifiedTime;
 						this.tableData.push(tableData);
 					})
+					this.count = data.total;
 				}else{
                     throw new Error('获取数据失败');
                 }

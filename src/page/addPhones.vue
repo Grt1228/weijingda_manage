@@ -40,8 +40,8 @@
         addForm: {
 		  phoneName: '',
 		  phoneNumber: '',
-		  phoneLevel: '',
-		  status: '',
+		  phoneLevel: '0',
+		  status: '0',
 		  phoneBookId: ''
 		},
 		rules: {
@@ -74,6 +74,13 @@
 					type: 'success',
 					message: data.msg
 				});
+				this.addForm = {
+				  phoneName: '',
+				  phoneNumber: '',
+				  phoneLevel: '0',
+				  status: '0',
+				  phoneBookId: ''
+				}
 			}else{
 				this.$message({
 					type: 'error',

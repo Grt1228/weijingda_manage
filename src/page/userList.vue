@@ -113,7 +113,7 @@
             },
             handleCurrentChange(val) {
                 this.currentPage = val;
-                this.pageNum = (val - 1);
+                this.pageNum = (val);
                 this.getUsers()
             },
             async getUsers(){
@@ -128,7 +128,7 @@
 						tableData.statusDesc = item.statusDesc;
 						this.tableData.push(tableData);
 					})
-					return data.total;
+					this.count = data.total;
 				}else{
                     throw new Error('获取数据失败');
                 }

@@ -29,6 +29,10 @@ const groupList = r => require.ensure([], () => r(require('@/page/groupList')), 
 const addGroups = r => require.ensure([], () => r(require('@/page/addGroups')), 'addGroups');
 const pointList = r => require.ensure([], () => r(require('@/page/pointList')), 'pointList');
 const addPoints = r => require.ensure([], () => r(require('@/page/addPoints')), 'addPoints');
+const addTexts = r => require.ensure([], () => r(require('@/page/addTexts')), 'addTexts');
+const addPhones = r => require.ensure([], () => r(require('@/page/addPhones')), 'addPhones');
+const addCalendars = r => require.ensure([], () => r(require('@/page/addCalendars')), 'addCalendars');
+const calendarList = r => require.ensure([], () => r(require('@/page/calendarList')), 'calendarList');
 
 
 const routes = [
@@ -56,6 +60,18 @@ const routes = [
 			path: '/addPoints',
 			component: addPoints,
 			meta: ['添加数据', '添加点'],
+		},{
+			path: '/addCalendars',
+			component: addCalendars,
+			meta: ['添加数据', '添加点'],
+		},{
+			path: '/addTexts',
+			component: addTexts,
+			meta: ['添加数据', '添加文本'],
+		},{
+			path: '/addPhones',
+			component: addPhones,
+			meta: ['添加数据', '添加文本'],
 		},{
 			path: '/addShop',
 			component: addShop,
@@ -107,6 +123,10 @@ const routes = [
 		},{
 			path: '/pointList',
 			component: pointList,
+			meta: ['数据管理', '点列表'],
+		},{
+			path: '/calendarList',
+			component: calendarList,
 			meta: ['数据管理', '点列表'],
 		},{
 			path: '/visitor',

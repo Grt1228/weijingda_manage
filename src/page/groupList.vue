@@ -200,6 +200,7 @@
 						tableData.modifiedTime = item.modifiedTime;
 						this.tableData.push(tableData);
 					})
+					this.count = data.total;
 				}else{
                     throw new Error('获取数据失败');
                 }
