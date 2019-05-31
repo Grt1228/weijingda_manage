@@ -122,10 +122,11 @@
 		}
 	  },
 	  changePointType(value){
-		if(value==1){
+		if(value==0){
 			this.tag = true
+		}else{
+			this.tag = false
 		}
-		console.log(value)
 	  },
       submitForm(formName) {
         this.$refs[formName].validate( async (valid) => {

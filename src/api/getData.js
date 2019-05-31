@@ -283,7 +283,7 @@ export const getCalendarList = data => fetch('/back/calendar/list', data,'POST')
  * 修改校历
  */
 
-export const updateCalendar = data => fetch('/back/calendar/addOrUpdate', data,'POST');
+export const updateCalendar = data => fetch('/back/calendar/update', data,'POST');
 
 /**
  * 删除校历
@@ -295,7 +295,13 @@ export const deleteCalendar = data => fetch('/back/calendar/delete', data,'POST'
  * 新增校历
  */
 
-export const addCalendar = data => fetch('/back/calendar/addOrUpdate', data,'POST');
+export const addCalendar = data => fetch('/back/calendar/add', data,'POST');
+
+/**
+ * 新增校历描述
+ */
+
+export const addCalendarDesc = data => fetch('/back/calendar/addDesc', data,'POST');
 
 /**
  * 获取文本列表

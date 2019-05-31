@@ -3,7 +3,7 @@
         <head-top></head-top>
 		<div class="form_container">
 			<el-form :inline="true" :model="formData" class="demo-form-inline">
-			  <el-form-item label="学期">
+			  <!-- <el-form-item label="学期">
 				<el-date-picker
 				  v-model="formData.calendarDate"
 				  type=""
@@ -11,12 +11,19 @@
 				  start-placeholder="开始月份"
 				  end-placeholder="结束月份">
 				</el-date-picker>
-			  </el-form-item>
-			  <el-form-item label="是否当前学期" prop="isCurrentYear">
-				<el-select v-model="formData.isCurrentYear" >
+			  </el-form-item> -->
+			  <el-form-item label="状态" prop="status">
+				<el-select v-model="formData.status" >
 					<el-option label="全部" value=""></el-option>
-					<el-option label="是" value="0"></el-option>
-					<el-option label="否" value="1"></el-option>
+					<el-option label="有效" value="1"></el-option>
+					<el-option label="无效" value="0"></el-option>
+				</el-select>
+			  </el-form-item>
+			  <el-form-item label="类型" prop="calendarType">
+				<el-select v-model="formData.calendarType" >
+					<el-option label="全部" value=""></el-option>
+					<el-option label="日期类" value="0"></el-option>
+					<el-option label="描述类" value="1"></el-option>
 				</el-select>
 			  </el-form-item>
 			  <el-form-item label="年月">
@@ -41,7 +48,7 @@
                 <el-table-column
                   type="index"
 				  align="center"
-                  width="60">
+                  width="80">
                 </el-table-column>
 				<el-table-column
                   property="calendarId"
@@ -51,7 +58,7 @@
                 </el-table-column>
                 <el-table-column
                   property="calendarDate"
-                  label="学期"
+                  label="日期"
 				  align="center"
                   width="200">
                 </el-table-column>
@@ -77,11 +84,46 @@
 				  v-if="false">
                 </el-table-column>
 				<el-table-column
+                  property="calendarType"
+                  label="类别"
+				  align="center"
+				  v-if="true"
+                  width="100">
+                </el-table-column>
+				
+				<el-table-column
+                  property="calendarTypeDesc"
+                  label="类别"
+				  align="center"
+                  width="200">
+                </el-table-column>
+				<el-table-column
+                  property="status"
+                  label="状态"
+				  align="center"
+				  v-if="true"
+                  >
+                </el-table-column>
+				
+				<el-table-column
+                  property="statusDesc"
+                  label="状态"
+				  align="center"
+                  width="80">
+                </el-table-column>
+				<el-table-column
                   property="calendarInfo"
                   label="日期描述"
 				  align="center"
 				  v-if="false"
-                  width="150">
+                  width="300">
+                </el-table-column>
+				<el-table-column
+                  property="calendarTitle"
+                  label="日期标题"
+				  align="center"
+				  v-if="false"
+                  >
                 </el-table-column>
 				<el-table-column
                   property="isCurrentYear"
@@ -99,10 +141,11 @@
                   property="isCurrentYearDesc"
                   label="是否当前学期"
 				  align="center"
-                  width="100">
+                  width="100"
+				  v-if="false">
                 </el-table-column>
 				
-				<el-table-column label="操作" align="center" >
+				<el-table-column label="操作" align="center" width="200">
 				  <template slot-scope="scope">
 					<el-button
 					  size="mini"
@@ -127,29 +170,45 @@
 		<div>
 			<el-dialog title="修改信息" :visible.sync="dialogFormVisible">
 				<el-form :model="editForm" :rules="rules" ref="editForm" label-width="100px" class="editForm">
-					  <el-form-item label="学期" prop="calendarDate">
+					  <el-form-item label="日期" prop="calendarDate">
 						<el-input v-model="editForm.calendarDate"></el-input>
 					  </el-form-item>
 					  
 					  <el-form-item label="年份" prop="calendarYear">
-						<el-input v-model="editForm.calendarYear"></el-input>
+						<el-input v-model="editForm.calendarYear" :disabled="tag" ></el-input>
 					  </el-form-item>
 					  <el-form-item label="月份" prop="calendarMonth">
-						<el-input v-model="editForm.calendarMonth"></el-input>
+						<el-input v-model="editForm.calendarMonth" :disabled="tag" ></el-input>
 					  </el-form-item>
 					  
-					  <el-form-item label="日期" prop="calendarDay">
-						<el-input v-model="editForm.calendarDay"   ></el-input>
+					  <el-form-item label="日" prop="calendarDay">
+						<el-input v-model="editForm.calendarDay"  :disabled="tag" ></el-input>
 					  </el-form-item>
-					  <el-form-item label="是否当前学期" prop="isCurrentYear">
+					  <!-- <el-form-item label="是否当前学期" prop="isCurrentYear">
 						<el-select v-model="editForm.isCurrentYear" >
 							<el-option label="是" value="0"></el-option>
 							<el-option label="否" value="1"></el-option>
 						</el-select>
-					  </el-form-item>
+					  </el-form-item> -->
 					  
+					  
+					  <el-form-item label="类型" prop="calendarType">
+						<el-select v-model="formData.calendarType" disabled="true" >
+							<el-option label="日期类" value="0"></el-option>
+							<el-option label="描述类" value="1"></el-option>
+						</el-select>
+					  </el-form-item>
+					  <el-form-item label="日期标题" prop="calendarTitle">
+						<el-input v-model="editForm.calendarTitle" :disabled="!tag" ></el-input>
+					  </el-form-item>
 					  <el-form-item label="日期描述" prop="calendarInfo">
-						<el-input v-model="editForm.calendarInfo"></el-input>
+						<el-input type="textarea" :autosize="{ minRows: 2}" v-model="editForm.calendarInfo"></el-input>
+					  </el-form-item>
+					  <el-form-item label="状态" prop="status">
+						<el-select v-model="formData.status" >
+							<el-option label="有效" value="1"></el-option>
+							<el-option label="无效" value="0"></el-option>
+						</el-select>
 					  </el-form-item>
 					  
 					  <el-form-item>
@@ -169,6 +228,7 @@
     export default {
         data(){
             return {
+				tag: false,
                 tableData: [],
                 currentRow: null,
                 pageNum: 1,
@@ -181,7 +241,9 @@
 				  calendarDate: '',
 				  calendarYear: '',
 				  calendarMonth: '',
-				  isCurrentYear: ''
+				  isCurrentYear: '',
+				  status: '',
+				  calendarType: ''
 				},
 				editForm: {
 				  calendarId: '',
@@ -189,8 +251,11 @@
 				  calendarYear: '',
 				  calendarMonth: '',
 				  calendarInfo: '',
+				  calendarTitle: '',
+				  calendarType: '',
 				  calendarDay: '',
-				  isCurrentYear: ''
+				  isCurrentYear: '',
+				  status: ''
 				},
 				rules: {
 				  calendarDate: [
@@ -234,14 +299,14 @@
                 }
             },
 			deleteRow(index,row){
-				this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+				this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
 				  confirmButtonText: '确定',
 				  cancelButtonText: '取消',
-				  type: 'warning',
+				  type: 'error',
 				  center: true
-				}).then(async () =>  {
-					const data = await deletePoint({"calendarId": row.calendarId});
-					if(data.isCurrentYear == 0){
+				}).then( async() =>{
+				    const data = await deleteCalendar({"calendarId": row.calendarId});
+				    if(data.status == 0){
 						this.$message({
 							type: 'success',
 							message: data.msg
@@ -269,16 +334,23 @@
                 this.getCalendars()
             },
             async getCalendars(){
-				//calendarDate格式校历学期 2018-09~2019-06
-				console.log(this.formData.calendarDate)
+				//console.log(this.formData);
+				var year = "";
+				var month = "";
+				if(this.formData.calendarMonth != ""){
+					year = this.formData.calendarMonth.getFullYear();
+					month = this.formData.calendarMonth.getMonth()+1;
+				}
                 const data = await getCalendarList({
 					pageNum: this.pageNum, 
 					pageSize: this.pageSize,
 					calendarDate: this.formData.calendarDate,
-					calendarYear: this.formData.calendarYear,
-					calendarMonth: this.formData.calendarMonth,
-					isCurrentYear: this.formData.isCurrentYear
-					
+					calendarYear: year,
+					calendarMonth: month,
+					isCurrentYear: this.formData.isCurrentYear,
+					status: this.formData.status,
+					calendarType: this.formData.calendarType
+
 				});
                 this.tableData = [];
 				if(data.status == 0){
@@ -290,6 +362,13 @@
 						tableData.calendarMonth = item.calendarMonth;
 						tableData.calendarDay = item.calendarDay;
 						tableData.calendarInfo = item.calendarInfo;
+						tableData.calendarTitle = item.calendarTitle;
+
+						tableData.calendarType = item.calendarType;
+						tableData.calendarTypeDesc = item.calendarTypeDesc;
+						tableData.statusDesc = item.statusDesc;
+						tableData.status = item.status;
+
 						tableData.isCurrentYear = item.isCurrentYear;
 						tableData.isCurrentYearDesc = item.isCurrentYearDesc;
 						tableData.modifiedTime = item.modifiedTime;
@@ -302,21 +381,28 @@
                 
             },
 			handleEdit(index, row) {
+				var value = row.calendarType;
+				if(value==0){
+					this.tag = false
+				}else{
+					this.tag = true
+				}
 				this.editForm.calendarId = row.calendarId;
 				this.editForm.calendarDate = row.calendarDate;
 				this.editForm.calendarInfo = row.calendarInfo;
+				this.editForm.calendarTitle = row.calendarTitle;
+				this.editForm.calendarType = row.calendarType;
 				this.editForm.calendarDay = row.calendarDay;
 				this.editForm.isCurrentYear = row.isCurrentYear;
 				this.editForm.calendarYear = row.calendarYear;
 				this.editForm.calendarMonth = row.calendarMonth;
+				this.editForm.status = row.status;
 				this.dialogFormVisible = true;
 			},
-			submitForm(formName){
-				console.log(this.editForm);
-				
+			submitForm(formName){				
 				this.$refs[formName].validate(async (valid) => {
 					if (valid) {
-						const data = await updatePoint(this.editForm);
+						const data = await updateCalendar(this.editForm);
 						console.log(data);
 						if(data.status == 0){
 							this.$message({

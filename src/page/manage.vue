@@ -24,7 +24,8 @@
 						<el-menu-item index="addPhones">添加号码</el-menu-item>
 						<el-menu-item index="addGroups">添加组</el-menu-item>
 						<el-menu-item index="addPoints">添加点</el-menu-item>
-						<el-menu-item index="addCalendars">添加校历</el-menu-item>
+						<el-menu-item index="addCalendars">添加校历日期</el-menu-item>
+						<el-menu-item index="addCalendarsDesc">添加校历描述</el-menu-item>
 					</el-submenu>
 					<el-submenu index="4">
 						<template slot="title"><i class="el-icon-star-on"></i>图表</template>

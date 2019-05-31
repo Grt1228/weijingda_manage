@@ -295,10 +295,11 @@
                 }
             },
 			changePointType(value){
-				if(value==1){
+				if(value==0){
 					this.tag = true
+				}else{
+					this.tag = false
 				}
-				console.log(value)
 			},
 			deleteRow(index,row){
 				this.$confirm('此操作将永久删除, 是否继续?', '提示', {

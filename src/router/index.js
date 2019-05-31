@@ -33,6 +33,7 @@ const addTexts = r => require.ensure([], () => r(require('@/page/addTexts')), 'a
 const addPhones = r => require.ensure([], () => r(require('@/page/addPhones')), 'addPhones');
 const addCalendars = r => require.ensure([], () => r(require('@/page/addCalendars')), 'addCalendars');
 const calendarList = r => require.ensure([], () => r(require('@/page/calendarList')), 'calendarList');
+const addCalendarsDesc = r => require.ensure([], () => r(require('@/page/addCalendarsDesc')), 'addCalendarsDesc');
 
 
 const routes = [
@@ -63,7 +64,11 @@ const routes = [
 		},{
 			path: '/addCalendars',
 			component: addCalendars,
-			meta: ['添加数据', '添加点'],
+			meta: ['添加数据', '添加校历日期'],
+		},{
+			path: '/addCalendarsDesc',
+			component: addCalendarsDesc,
+			meta: ['添加数据', '添加校历描述'],
 		},{
 			path: '/addTexts',
 			component: addTexts,
@@ -71,7 +76,7 @@ const routes = [
 		},{
 			path: '/addPhones',
 			component: addPhones,
-			meta: ['添加数据', '添加文本'],
+			meta: ['添加数据', '添加电话'],
 		},{
 			path: '/addShop',
 			component: addShop,
@@ -127,7 +132,7 @@ const routes = [
 		},{
 			path: '/calendarList',
 			component: calendarList,
-			meta: ['数据管理', '点列表'],
+			meta: ['数据管理', '校历列表'],
 		},{
 			path: '/visitor',
 			component: visitor,
