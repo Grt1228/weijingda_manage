@@ -24,27 +24,15 @@
 					<el-input-number v-model="imgForm.sortNum" :min="1" :max="100" label="排序号不能重复"></el-input-number>
 				  </el-form-item>
 				  <el-form-item label="上传图片" prop="imageUrl">
-				  
-					<el-upload
-					  class="upload"
-					  :action="baseUrl + '/back/image/upload'"
-					  :show-file-list="false"
-					  :on-success="handleShopAvatarScucess"
-					  :before-upload="beforeUpload">
-					  <img v-if="formData.image_path" :src="imageUrl" class="avatar">
-					  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-					</el-upload>
 					
 					<el-upload
 					  class="upload"
-					  :action="baseUrl + '/back/image/upload'"
-					  :show-file-list="false"
 					  drag
-					  :on-success="handleShopAvatarScucess"
-					  :before-upload="beforeUpload">:action="baseUrl + '/back/image/upload'"
+					  action="http://localhost:8888/back/image/upload"
+					  :on-success=" "
+					  :before-upload="beforeUpload" 
 					  :show-file-list="false"
-					  :on-success="handleShopAvatarScucess"
-					  :before-upload="beforeUpload">
+					  multiple>
 					  <i class="el-icon-upload"></i>
 					  <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
 					  <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>

@@ -144,7 +144,7 @@ const routes = [
 		},{
 			path: '/uploadImg',
 			component: uploadImg,
-			meta: ['文本编辑', 'MarkDown'],
+			meta: ['编辑', '上传图片'],
 		},{
 			path: '/vueEdit',
 			component: vueEdit,
