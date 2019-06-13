@@ -12,21 +12,38 @@
 				  </el-form-item>
 				  <el-form-item label="新闻类别" prop="newType">
 					<el-select v-model="newForm.newType" placeholder="请选择新闻类别">
-					  <el-option label="区域一" value="shanghai"></el-option>
-					  <el-option label="区域二" value="beijing"></el-option>
+					  <el-option label="校园新闻" value="1"></el-option>
+					  <el-option label="通知公告" value="2"></el-option>
+					  <el-option label="学术讲座" value="3"></el-option>
+					  <el-option label="科研信息" value="4"></el-option>
+					  <el-option label="教务通知" value="5"></el-option>
+					  <el-option label="学院动态" value="6"></el-option>
 					</el-select>
 				  </el-form-item>
+				  <el-form-item label="新闻头图" prop="imageId">
+					<el-select v-model="newForm.imageId" placeholder="请选择新闻头图" @change="changeImage">
+						<el-option
+							 v-for="item in imageList"
+							 :key="item.imageUrl"
+							 :label="item.imageName"
+							 :value="item.imageId">
+						</el-option>
+					</el-select>
+				</el-form-item>
 				  <el-form-item label="新闻日期" required>
 					<el-col :span="11">
-					  <el-form-item prop="newDate">
-						<el-date-picker type="date" placeholder="选择日期" v-model="newForm.newDate" style="width: 100%;"></el-date-picker>
+					  <el-form-item prop="newDate" >
+						<el-input v-model="newForm.newDate" placeholder="格式：1999年5月21日"></el-input>
 					  </el-form-item>
 					</el-col>
 				  </el-form-item>
 				  <el-form-item label="新闻状态" prop="newStatus">
-					<el-switch active-value="0" inactive-value="1" v-model="newForm.newStatus" ></el-switch>
+					<el-select v-model="newForm.newStatus" placeholder="">
+					  <el-option label="有效" value="1"></el-option>
+					  <el-option label="无效" value="0"></el-option>
+					</el-select>
 				  </el-form-item>
-				  <el-form-item label="新闻内容" prop="newDetail">
+				  <el-form-item label="新闻概述" prop="newDetail">
 					<el-input type="textarea" v-model="newForm.newDetail"></el-input>
 				  </el-form-item>
 				  <el-form-item>
@@ -40,21 +57,26 @@
 </template>
 <script>
   import headTop from '@/components/headTop'
+  import {addNews,getImageList} from '@/api/getData'
   export default {
     data() {
       return {
+		imageList: [],
+		currentImageUrl: '',
         newForm: {
           newTitle: '',
           newCreater: '',
           newType: '',
           newDate: '',
           newStatus: '0',
-          newDetail: ''
+          newDetail: '',
+		  imageId: '',
+		  imageUrl: ''
         },
         rules: {
           newTitle: [
             { required: true, message: '请输入新闻标题', trigger: 'blur' },
-            { min: 1, max: 20, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+            { min: 1, max: 60, message: '超长', trigger: 'blur' }
           ],
           newCreater: [
             { required: true, message: '请选择新闻发布人', trigger: 'change' }
@@ -63,10 +85,10 @@
             { required: true, message: '请选择新闻类型', trigger: 'change' }
           ],
           newDate: [
-            { type: 'date', required: true, message: '请选择新闻时间', trigger: 'change' }
+            {required: true, message: '请输入新闻时间', trigger: 'change' }
           ],
           newDetail: [
-            { required: true, message: '请填写新闻详情', trigger: 'blur' }
+            { required: true, message: '请填写新闻概述', trigger: 'blur' }
           ]
         }
       };
@@ -74,15 +96,62 @@
     components: {
     	headTop,
     },
+	created(){
+		this.initData();
+	},
 	methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-		  console.log(this.newForm);
-            this.$message({
-				type: 'success',
-				message: '新增成功成功'
+	  changeImage(e){
+		this.imageList.forEach((item) => {
+			if(item.imageId == e){
+				this.currentImageUrl = item.imageUrl;
+			}
+			
+		})
+		console.log(this.currentImageUrl)
+	  },
+	  async initData(){
+		try{
+			//新闻列表
+			const imageData = await getImageList({
+				pageNum: 0, 
+				pageSize: 100,
+				newStatus: '1',
+				imageType: '2'
 			});
+			if (imageData.status == 0) {
+				imageData.rows.forEach(item => {
+					const oneImage = {};
+					oneImage.imageName = item.imageName;
+					oneImage.imageUrl = item.imageUrl;
+					oneImage.imageId = item.imageId;
+					this.imageList.push(oneImage);
+				})
+			}else{
+				throw new Error('获取图片数据失败');
+			}
+			
+		}catch(err){
+			console.log('获取数据失败', err);
+		}
+	  },
+      submitForm(formName) {
+        this.$refs[formName].validate(async (valid) => {
+          if (valid) {
+			console.log(this.newForm);
+			this.newForm.imageUrl = this.currentImageUrl
+            const data = await addNews(this.newForm);
+			if(data.status == 0){
+				this.$message({
+					type: 'success',
+					message: data.msg
+				});
+				this.$refs[formName].resetFields();
+			}else{
+				this.$message({
+					type: 'error',
+					message: data.msg
+				});
+			}
           } else {
             console.log('error submit!!');
             return false;

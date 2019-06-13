@@ -12,6 +12,7 @@
 					<el-select v-model="imgForm.imageType" placeholder="请选择新闻类别">
 					  <el-option label="轮播图" value="0"></el-option>
 					  <el-option label="首页图标" value="1"></el-option>
+					  <el-option label="新闻头图" value="2"></el-option>
 					</el-select>
 				  </el-form-item>
 				  <el-form-item label="图片状态" prop="status">
@@ -29,8 +30,7 @@
 					  class="upload"
 					  drag
 					  action="http://localhost:8888/back/image/upload"
-					  :on-success=" "
-					  :before-upload="beforeUpload" 
+					  :on-success="uploadSuccess"
 					  :show-file-list="false"
 					  multiple>
 					  <i class="el-icon-upload"></i>
@@ -51,7 +51,7 @@
 
 <script>
 	import headTop from '../components/headTop'
-	import {uploadImg,addOrUpdateImg} from '@/api/getData'
+	import {uploadImg,addOrUpdateImage} from '@/api/getData'
     export default {
     data() {
       return {
@@ -85,13 +85,21 @@
 	methods: {
       submitForm(formName) {
 		console.log(this.imgForm);
-        this.$refs[formName].validate((valid) => {
+        this.$refs[formName].validate( async (valid) =>  {
           if (valid) {
-		  console.log(this.newForm);
-            this.$message({
-				type: 'success',
-				message: '新增成功成功'
-			});
+			const data = await addOrUpdateImage(this.imgForm);
+			if(data.status == 0){
+				this.$message({
+					type: 'success',
+					message: data.msg
+				});
+				this.$refs[formName].resetFields();
+			}else{
+				this.$message({
+					type: 'error',
+					message: data.msg
+				});
+			}
           } else {
             console.log('error submit!!');
             return false;
@@ -111,6 +119,21 @@
 		  this.$message.error('上传头像图片大小不能超过 2MB!');
 		}
 		return isRightType && isLt2M;
+	  },
+	  uploadSuccess(value){
+		if(value.status=='0'){
+			this.imgForm.imageUrl = value.data;
+			this.$message({
+				type: 'success',
+				message: value.msg
+			});
+		}else{
+			this.$message({
+				type: 'error',
+				message: value.msg
+			});
+		}
+		
 	  },
 	  async uploadImgFun(param){
 		var fileObj = param.file;

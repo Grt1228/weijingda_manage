@@ -323,10 +323,27 @@ export const addText = data => fetch('/back/text/add', data,'POST');
 export const updateText = data => fetch('/back/text/update', data,'POST');
 
 /**
- * 新增图片
+ * 新增修改图片
+ */
+
+export const addOrUpdateImage = data => fetch('/back/image/addOrUpdate', data,'POST');
+
+/**
+ * 上传图片
  */
 
 export const uploadImg = data => fetch('/back/image/upload', data,'POST');
+/**
+ * 获取图片列表
+ */
+
+export const getImageList = data => fetch('/back/image/list', data,'POST');
+
+/**
+ * 新增新闻内容
+ */
+
+export const addContent = data => fetch('/back/new/content/add', data,'POST');
 
 /**
  * 获取用户数量

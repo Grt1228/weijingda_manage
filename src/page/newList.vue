@@ -281,7 +281,13 @@
             },
 			handleEdit(index, row) {
 				console.log(row);
-				this.addForm = row;
+				this.addForm.newTitle = row.newTitle;
+				this.addForm.newCreater = row.newCreater;
+				this.addForm.newType = row.newType;
+				this.addForm.newDate = row.newDate;
+				this.addForm.newStatus = row.newStatus;
+				this.addForm.newDetail = row.newDetail;
+				this.addForm.newId = row.newId;
 				this.dialogFormVisible = true;
 			},
 			submitForm(formName){
