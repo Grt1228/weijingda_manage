@@ -34,6 +34,7 @@ const addPhones = r => require.ensure([], () => r(require('@/page/addPhones')), 
 const addCalendars = r => require.ensure([], () => r(require('@/page/addCalendars')), 'addCalendars');
 const calendarList = r => require.ensure([], () => r(require('@/page/calendarList')), 'calendarList');
 const addCalendarsDesc = r => require.ensure([], () => r(require('@/page/addCalendarsDesc')), 'addCalendarsDesc');
+const newContentList = r => require.ensure([], () => r(require('@/page/newContentList')), 'newContntList');
 
 
 const routes = [
@@ -133,6 +134,10 @@ const routes = [
 			path: '/calendarList',
 			component: calendarList,
 			meta: ['数据管理', '校历列表'],
+		},{
+			path: '/newContentList',
+			component: newContentList,
+			meta: ['数据管理', '新闻详情'],
 		},{
 			path: '/visitor',
 			component: visitor,

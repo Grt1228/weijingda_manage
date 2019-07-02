@@ -196,6 +196,17 @@ export const getUserList = data => fetch('/back/user/list', data,'POST');
  */
 
 export const getNewList = data => fetch('/back/new/list', data,'POST');
+
+/**
+ * 获取新闻详情·列表
+ */
+
+export const getNewContentList = data => fetch('/back/new/content/list', data,'POST');
+/**
+ * 删除·新闻详情
+ */
+
+export const deleteContent = data => fetch('/back/new/content/delete', data,'POST');
 /**
  * 获取电话列表
  */
